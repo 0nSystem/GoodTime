@@ -59,4 +59,5 @@ public class GeneralConfig {
                 .authorizeHttpRequests(a->a.mvcMatchers("/api/v1/*").hasRole("user"));
         return http.build();
     }
+
 }

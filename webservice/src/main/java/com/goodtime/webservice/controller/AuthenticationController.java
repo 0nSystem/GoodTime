@@ -1,7 +1,6 @@
 package com.goodtime.webservice.controller;
 
 
-import com.goodtime.webservice.service.dto.UserDto;
 import com.goodtime.webservice.service.dto.UserRegisterDto;
 import com.goodtime.webservice.service.interfaces.ISessionService;
 import com.goodtime.webservice.service.interfaces.IUserService;
@@ -22,7 +21,7 @@ public class AuthenticationController {
     private LoggerGoodtime loggerGoodtime;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestParam String username, @RequestParam  String password){
+    public ResponseEntity<?> login(@RequestParam String username, @RequestParam  String password){
         try {
             sessionService.login(username,password);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -32,16 +31,19 @@ public class AuthenticationController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @GetMapping("/logout")
-    public ResponseEntity logout(){
-        boolean isLogout= sessionService.logout();
-        if(!isLogout){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> logout(){
+        try {
+            boolean isLogout= sessionService.logout();
+            if(!isLogout){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            loggerGoodtime.logInfo(AuthenticationController.class,"cant logout");
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserRegisterDto userRegisterDto){
+    public ResponseEntity<?> register(@RequestBody UserRegisterDto userRegisterDto){
         try {
             if(userService.insert(userRegisterDto))
                 return new ResponseEntity<>(HttpStatus.OK);

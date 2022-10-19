@@ -56,4 +56,11 @@ public class UserService implements IUserService {
         return objectMapper.convertValue(userRepository.findById(id).orElseThrow(),
                 UserDto.class);
     }
+
+    @Override
+    public UserDto findByUserName(String name) {
+        return objectMapper.convertValue(
+                userRepository.findByUserName(name).orElseThrow(),
+                UserDto.class);
+    }
 }

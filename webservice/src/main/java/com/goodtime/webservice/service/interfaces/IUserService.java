@@ -8,5 +8,6 @@ public interface IUserService {
     boolean update(UserDto userDto);
     boolean delete(UserDto userDto);
     UserDto findById(Long id);
+    UserDto findByUserName(String name);
 
 }
